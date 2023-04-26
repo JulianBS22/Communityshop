@@ -1,4 +1,6 @@
-
+import { useEffect, useState } from 'react';
+import './styles.css'
+import { getLatestAdverts } from './service';
 
 const adverts = [
     {
@@ -50,17 +52,21 @@ const adverts = [
 ]
 
 const AdvertsPage = () => {
-
-    return <div className= "AdvertsPage" >
+    const [adverts, setAdverts] = useState ([]);
+    useEffect(() =>{
+        getLatestAdverts().then (adverts => setAdverts(adverts.data));
+    },[]);
+    
+    return (
+    <div className= "AdvertsPage" >
         <ul>
-            {
-                adverts.map(advert => <li key = {advert.advertId}>
+            {adverts.map(advert => (<li key = {advert.advertId}>{advert.name}{advert.price}
 
-                </li>)
-            }
+            </li>))}
+            
         </ul>
-
     </div>
+    );
 };
 
 export default AdvertsPage;
